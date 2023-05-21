@@ -151,14 +151,18 @@ def infertypes(args):
                 global_tg = generator.run(root)
                 str_results = {}
                 if recommendations == None and args.type4py:
+                    logger.info(f"Using Type4Py docker model for {args.source}")
                     recommendations = getRecommendations(source)
                 elif isinstance(recommendations, dict) and args.source in recommendations:
+                    logger.info(f"Using provided recommendations for {args.source}")
                     recommendations = recommendations[args.source]
                 if recommendations != None:
+                    logger.info("Recommendations found!")
                     global_tg.passTypes(debug = False)
                     global_tg.recommendType(recommendations, formatUserTypes(usertypes), usertypes["module"], args.topn, simmodel = simmodel)
                     global_tg.passTypes(debug = False)
                 else:
+                    logger.warning("No recommendations found!")
                     global_tg.passTypes(debug = False)
                 global_tg.simplifyTypes()
                 str_results["global@global"] = global_tg.dumptypes()
@@ -202,11 +206,14 @@ def infertypes(args):
                         str_results["global@global"] = global_tg.dumptypes()
                         single_recommendations = None
                         if recommendations == None and args.type4py:
+                            logger.info(f"Using Type4Py docker model for {f}")
                             single_recommendations = getRecommendations(source)
                         elif isinstance(recommendations, dict) and f in recommendations:
+                            logger.info(f"Using provided recommendations for {f}")
                             single_recommendations = recommendations[f]
                         for tg in global_tg.tgs:
                             if single_recommendations != None:
+                                logger.info("Recommendations found!")
                                 changed = True
                                 iters = 0
                                 while changed and iters < config["max_recommendation_iteration"]:
@@ -219,6 +226,7 @@ def infertypes(args):
                                     changed = detectChange(types, new_types)
                                     tg.simplifyTypes()
                             else:
+                                logger.warning("No recommendations found!")
                                 tg.passTypes(debug = False)
                                 tg.simplifyTypes()
                             str_results[tg.name] = tg.dumptypes()
