@@ -85,6 +85,10 @@ def getRecommendations(source):
     if not isinstance(res, dict) or res["response"] == None:
         logger.error("Type4Py cannot generate predictions for current source file.")
         return None
+    
+    return transformType4PyRecommendations(res)
+
+def transformType4PyRecommendations(res: dict) -> dict:
     rec = {}
     num = 0
     
@@ -142,8 +146,7 @@ def getRecommendations(source):
             types.append(t[0])
         rec["global"]["global"]["annotations"].append({"category": "local", "name": v, "type": types})
         num += 1
-
-    logger.info("Get {} recommendations from Type4Py.".format(num))
+    
     return rec
 
 
