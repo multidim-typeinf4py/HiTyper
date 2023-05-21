@@ -86,13 +86,13 @@ def getRecommendations(source):
         logger.error("Type4Py cannot generate predictions for current source file.")
         return None
     
-    return transformType4PyRecommendations(res)
+    return transformType4PyRecommendations(res["response"])
 
 def transformType4PyRecommendations(res: dict) -> dict:
     rec = {}
     num = 0
     
-    for c in res["response"]["classes"]:
+    for c in res["classes"]:
         rec[c["q_name"]] = {}
         for func in c["funcs"]:
             rec[c["q_name"]][func["q_name"]] = {"annotations": []}
@@ -117,7 +117,7 @@ def transformType4PyRecommendations(res: dict) -> dict:
                     rec[c["q_name"]][func["q_name"]]["annotations"].append({"category": "local", "name": p, "type": types})
                     num += 1
     rec["global"] = {"global": {"annotations": []}}
-    for func in res["response"]["funcs"]:
+    for func in res["funcs"]:
         rec["global"][func["q_name"]] = {"annotations": []}
         if "params_p" in func:
             for p in func["params_p"]:
@@ -140,9 +140,9 @@ def transformType4PyRecommendations(res: dict) -> dict:
                 rec["global"][func["q_name"]]["annotations"].append({"category": "local", "name": p, "type": types})
                 num += 1
     
-    for v in res["response"]["variables_p"]:
+    for v in res["variables_p"]:
         types = []
-        for t in res["response"]["variables_p"][v]:
+        for t in res["variables_p"][v]:
             types.append(t[0])
         rec["global"]["global"]["annotations"].append({"category": "local", "name": v, "type": types})
         num += 1

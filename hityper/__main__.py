@@ -6,7 +6,7 @@ import json
 import traceback
 from hityper.tdg_generator import TDGGenerator
 from hityper.usertype_finder import UsertypeFinder
-from hityper.utils import formatUserTypes, getRecommendations, test_multiplefile, transformDataset, collectUserTypeset
+from hityper.utils import formatUserTypes, getRecommendations, test_multiplefile, transformDataset, collectUserTypeset, transformType4PyRecommendations
 from hityper.config import config
 from hityper import logger
 from hityper.utils import detectChange, SimModel
@@ -210,7 +210,7 @@ def infertypes(args):
                             single_recommendations = getRecommendations(source)
                         elif isinstance(recommendations, dict) and f in recommendations:
                             logger.info(f"Using provided recommendations for {f}")
-                            single_recommendations = recommendations[f]
+                            single_recommendations = transformType4PyRecommendations(recommendations[f])
                         for tg in global_tg.tgs:
                             if single_recommendations != None:
                                 logger.info(f"Recommendations found for {f}!")
