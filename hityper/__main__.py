@@ -157,12 +157,12 @@ def infertypes(args):
                     logger.info(f"Using provided recommendations for {args.source}")
                     recommendations = recommendations[args.source]
                 if recommendations != None:
-                    logger.info("Recommendations found!")
+                    logger.info(f"Recommendations found for {args.source}!")
                     global_tg.passTypes(debug = False)
                     global_tg.recommendType(recommendations, formatUserTypes(usertypes), usertypes["module"], args.topn, simmodel = simmodel)
                     global_tg.passTypes(debug = False)
                 else:
-                    logger.warning("No recommendations found!")
+                    logger.warning(f"No recommendations found for {args.source}!")
                     global_tg.passTypes(debug = False)
                 global_tg.simplifyTypes()
                 str_results["global@global"] = global_tg.dumptypes()
@@ -213,7 +213,7 @@ def infertypes(args):
                             single_recommendations = recommendations[f]
                         for tg in global_tg.tgs:
                             if single_recommendations != None:
-                                logger.info("Recommendations found!")
+                                logger.info(f"Recommendations found for {f}!")
                                 changed = True
                                 iters = 0
                                 while changed and iters < config["max_recommendation_iteration"]:
@@ -226,7 +226,7 @@ def infertypes(args):
                                     changed = detectChange(types, new_types)
                                     tg.simplifyTypes()
                             else:
-                                logger.warning("No recommendations found!")
+                                logger.warning(f"No recommendations found for {f}!")
                                 tg.passTypes(debug = False)
                                 tg.simplifyTypes()
                             str_results[tg.name] = tg.dumptypes()
