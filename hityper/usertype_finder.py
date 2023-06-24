@@ -329,6 +329,9 @@ class UsertypeFinder(object):
         if(os.path.isdir(filepath) and filepath not in scaned_files):
             scaned_files.append(filepath)
             types = self.parse_initfiles(filepath + "/__init__.py", repopaths)
+            if types is None:
+                return 1
+
             for t in types["indirect"]:
                 finalt = [t[0], name, t[2], t[3]]
                 if finalt not in self.finaltypes["indirect"]:
