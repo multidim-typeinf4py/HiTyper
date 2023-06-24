@@ -315,10 +315,14 @@ class UsertypeFinder(object):
         else:
             source = open(path, "r").read()
             root = ast.parse(source)
-            a = UsertypeFinder(path, "/".join(repopaths), self.validate)
-            types, _ = a.run(root)
-            return types
-            
+            try:
+                a = UsertypeFinder(path, "/".join(repopaths), self.validate)
+                types, _ = a.run(root)
+                return types
+            except RecursionError:
+                logger.error("Infinite recursion detected, returning None")
+                return None
+
     def scan_file(self, filepath, name, repopaths):
         if filepath.endswith(".py"):
             filepath = filepath.replace(".py", "")
