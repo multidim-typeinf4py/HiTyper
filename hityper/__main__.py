@@ -198,7 +198,14 @@ def infertypes(args):
                         source = open(f, "r", encoding = "utf-8").read()
                         root = ast.parse(source)
                         usertypefinder = UsertypeFinder(f, args.repo, True)
-                        usertypes, _ = usertypefinder.run(root)
+
+                        try:
+                            usertypes, _ = usertypefinder.run(root)
+                        except RecursionError:
+                            logger.error("Infinite recursion occurred while trying to find user-defined types, defaulting to empty set of types")
+                            usertypes = {
+                                "direct": [], "indirect": [], "unrecognized": [], "init": []
+                            }
                         generator = TDGGenerator(f, True, None, usertypes, alias = 0, repo = None)
                         global_tg = generator.run(root)
                         str_results = {}
