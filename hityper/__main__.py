@@ -204,7 +204,7 @@ def infertypes(args):
                         except RecursionError:
                             logger.error("Infinite recursion occurred while trying to find user-defined types, defaulting to empty set of types")
                             usertypes = {
-                                "direct": [], "indirect": [], "unrecognized": [], "init": []
+                                "direct": [], "indirect": [], "unrecognized": [], "init": [], "module": [],
                             }
                         generator = TDGGenerator(f, True, None, usertypes, alias = 0, repo = None)
                         global_tg = generator.run(root)
