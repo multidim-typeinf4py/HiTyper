@@ -1,4 +1,5 @@
 import argparse
+import pprint
 import subprocess
 import ast
 import os
@@ -219,6 +220,9 @@ def infertypes(args):
                             logger.info(f"Using provided recommendations for {f}")
                             single_recommendations, rec_count = transformType4PyRecommendations(recommendations[f])
                             logger.error(f"Receiving {rec_count} predictions from ML Model for {f}")
+                            pprint.pprint(single_recommendations)
+                            input()
+
                         for tg in global_tg.tgs:
                             if single_recommendations != None:
                                 logger.info(f"Recommendations found for {f}!")
