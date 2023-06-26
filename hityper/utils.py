@@ -147,6 +147,7 @@ def transformType4PyRecommendations(res: dict) -> dict:
         rec["global"]["global"]["annotations"].append({"category": "local", "name": v, "type": types})
         num += 1
     
+    logger.error(f"Received {num} suggestions from ML model!")
     return rec
 
 
