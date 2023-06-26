@@ -147,8 +147,7 @@ def transformType4PyRecommendations(res: dict) -> dict:
         rec["global"]["global"]["annotations"].append({"category": "local", "name": v, "type": types})
         num += 1
     
-    logger.error(f"Received {num} suggestions from ML model!")
-    return rec
+    return rec, num
 
 
 def test_multiplefile(gtfile, detailed_gtfile, usertype_file, recfile = None, recmodel = False, topn = 1, prefix = None, eval = False):

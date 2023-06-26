@@ -217,7 +217,8 @@ def infertypes(args):
                             single_recommendations = getRecommendations(source)
                         elif isinstance(recommendations, dict) and f in recommendations:
                             logger.info(f"Using provided recommendations for {f}")
-                            single_recommendations = transformType4PyRecommendations(recommendations[f])
+                            single_recommendations, rec_count = transformType4PyRecommendations(recommendations[f])
+                            logger.error(f"Receiving {rec_count} predictions from ML Model for {f}")
                         for tg in global_tg.tgs:
                             if single_recommendations != None:
                                 logger.info(f"Recommendations found for {f}!")
